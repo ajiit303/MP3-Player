@@ -8,11 +8,7 @@ from pygame import mixer
 # This is Truong's Branch
 frame = tk.Tk()
 
-canvas = tk.Canvas(frame, height = 700, width = 700, bg = "black")
-canvas.pack()
 
-background = tk.Frame(frame,bg = "yellow")
-background.place(relwidth = 0.8, relheight = 0.8, relx = 0.1, rely = 0.1)
 
 #uigansdkukwhms,
 #Initialize pygame mixer
@@ -20,11 +16,21 @@ background.place(relwidth = 0.8, relheight = 0.8, relx = 0.1, rely = 0.1)
 #mixer.music.load()
 #mixer.music.play()
 class MusicPlayer:
-    def __init__(self, window):
+    def __init__(self, frame):
+        frame.geometry('320x300')
+        frame.title('mp3player')
+        play = Button(frame, text='play', width=15)
+        pause = Button(frame, text='pause', width=15)
+        play.place(x=0,y=40)
+        pause.place(x=110, y=40)
+
+
+
+    def play(self):
         pass
 
-
 #instantiate class MusicPlayer
+
 player = MusicPlayer(frame)
 
 
