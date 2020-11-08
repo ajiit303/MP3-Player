@@ -1,15 +1,16 @@
+import pygame as pg
 import tkinter as tk
 from tkinter import filedialog, Text
 import os
 
-root = tk.Tk()
+frame = tk.Tk()
 
-canvas = tk.Canvas(root, height = 700, width = 700, bg = "#263D42")
+canvas = tk.Canvas(frame, height = 700, width = 700, bg = "black")
 canvas.pack()
 
-frame = tk.Frame(root,bg = "white")
-frame.place(relwidth = 0.8, relheight = 0.8, relx = 0.1, rely = 0.1)
+background = tk.Frame(frame,bg = "yellow")
+background.place(relwidth = 0.8, relheight = 0.8, relx = 0.1, rely = 0.1)
 
 
 
-root.mainloop()
+frame.mainloop()
