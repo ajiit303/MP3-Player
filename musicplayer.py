@@ -83,7 +83,7 @@ def play_in_playlist(i):
     global pattern
     global now_playing_label
     # ^ some of these might not be required
-    print("print",i)
+    #print("print",i)
     mixer.music.load(songs_location[i-1])
     song_name = re.search(pattern, songs_location[i-1]).group(4)
     if now_playing_label is None:
@@ -118,8 +118,8 @@ def play_next():
     global songs_index
     if songs_index < len(songs_location):
         songs_index += 1
-        print(len(songs_location))
-        print(songs_index)
+        #print(len(songs_location))
+        #print(songs_index)
         play_in_playlist(songs_index)
 
 
