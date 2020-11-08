@@ -18,6 +18,7 @@ list_of_songs = []
 upcoming_songs = None
 pattern = r"(\\|\/)(.+(\\|\/))*(.+)\.(.+)$"
 songs_index = 0
+now_playing = []
 
 
 def playlist():
@@ -57,7 +58,7 @@ def errormessage(location):
 def playmusic():
     global now_playing_label
     global songs_location
-    now_playing = []
+    global now_playing
     for i in range(len(songs_location)):
         song_name = re.search(pattern, songs_location[i]).group(4)
         now_playing.append((songs_location[i], song_name))
@@ -75,26 +76,16 @@ def playmusic():
 
     num_songs_played = 1
     frame.after(1000, task)
-    # i = 1
-    # while (i < len(now_playing)+1):
-    #     for event in pg.event.get():
-    #         if event.type == pygame.QUIT:
-    #             running = False
-    #         if event.type == SONG_END:
-    #             if (i < len(now_playing)+1):
-    #                 mixer.music.load(now_playing[i][0])
-    #                 # put ui update code here
-    #                 # display now_playing[i].name
-    #                 i += 1
-
+    
 
 def play_in_playlist(i):
     global songs_location
     global pattern
     global now_playing_label
     # ^ some of these might not be required
-    mixer.music.load(songs_location[i])
-    song_name = re.search(pattern, songs_location[i]).group(4)
+    print("print",i)
+    mixer.music.load(songs_location[i-1])
+    song_name = re.search(pattern, songs_location[i-1]).group(4)
     if now_playing_label is None:
         now_playing_label = tk.Label(background, text=song_name, bg="red")
         now_playing_label.place(relx=0.0, rely=0.95)
@@ -104,17 +95,19 @@ def play_in_playlist(i):
     mixer.music.play()
 
 def task():
+    global num_songs_played
+    global now_playing
     
-    print("my name")
     for event in pg.event.get():
             if event.type == pg.QUIT:
                 running = False
-            if event.type == pg.SONG_END:
-                if (num_songs_played < len(now_playing)+1):
+            if event.type == SONG_END:
+                if (num_songs_played < len(now_playing)):
                     mixer.music.load(now_playing[num_songs_played][0])
                     # put ui update code here
                     # display now_playing[i].name
                     num_songs_played += 1
+                    play_next()
                 else:
                     running = False
     
@@ -123,8 +116,10 @@ def task():
 
 def play_next():
     global songs_index
-    if songs_index < len(songs_location):
+    if songs_index < len(songs_location)+1:
         songs_index += 1
+        print(len(songs_location))
+        print(songs_index)
         play_in_playlist(songs_index)
 
 
