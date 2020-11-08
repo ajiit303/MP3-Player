@@ -19,4 +19,7 @@ option of adding only one file at a time and you can add as many mp3 files to it
 4.) After this, you click on "Play" to play the songs and the current songs will be displayed in the bottom left corner.
 5.) You can "Pause/Unpause" the song by clicking on that button one after the other. On pressing it the first time, it pauses it and 
 on pressing it again, the song gets played from the same spot.
-6.) You can 
+6.) You can Stop the current song by clicking on "Stop"
+7.) Clickong on "Next" will take you to the next song on the playlist and clicking on "Previous" will take you to the previous song
+of the playlist. If we are on the last song of the playlist then the "Next" command will not work and if you are on the first
+song of the playlist, clicking on "Previous" will not work.
