@@ -25,7 +25,7 @@ def playlist():
     songs_location.append(songname.name)
     for location in songs_location:
         list_of_songs.append(location.split("/")[-1])
-    songs = "The list of your playlist is: \n "
+    songs = "Your playlist is: \n "
     for song_request in list_of_songs:
         songs += song_request+"\n"
     if upcoming_songs is None:
@@ -43,6 +43,7 @@ def errormessage(location):
 
 def playmusic():
     global now_playing_label
+    
     for location in songs_location:
         if (errormessage(location)):
             error_message = "Not a .mp3 file. Error"
@@ -52,17 +53,23 @@ def playmusic():
         #song_name = location.split("/")[-1]
         pattern = r"(\\|\/)(.+(\\|\/))*(.+)\.(.+)$"
         song_name = re.search(pattern, location).group(4)
-
+    
+    for song in list_of_songs:
         if now_playing_label is None:
-            now_playing_label = tk.Label(background, text=song_name, bg="red")
-            now_playing_label.place(relx=0.0, rely=0.3)
+            now_playing_label = tk.Label(background, text=song, bg="red")
+            now_playing_label.place(relx=0.0, rely=0.95)
         else:
-            now_playing_label.configure(text=song_name)
+            now_playing_label.configure(text=song)
 
         mixer.init()
         mixer.music.load(location)
         mixer.music.play()
 
+def next_song():
+    pass
+
+def previous_song():
+    pass
 
 def pausemusic():
     mixer.music.pause()
@@ -107,20 +114,26 @@ select_song.place(relx=0.0, rely=0.0)
 play = tk.Button(frame, text="Play", padx=15,
                  pady=5, fg="blue", bg="white", command=playmusic)
 
-play.place(relx=0.22, rely=0.0)
+play.place(relx=0.23, rely=0.0)
 
 pause = tk.Button(frame, text="Pause/Unpause", padx=15,
                   pady=5, fg="blue", bg="white", command=play_pause)
 
-pause.place(relx=0.345, rely=0.0)
+pause.place(relx=0.352, rely=0.0)
 
 stop = tk.Button(frame, text="Stop", padx=15,
                  pady=5, fg="blue", bg="white", command=stopmusic)
 
-stop.place(relx=0.59, rely=0.0)
+stop.place(relx=0.595, rely=0.0)
+
+next = tk.Button(frame, text="Next", padx=15,
+                 pady=5, fg="blue", bg="white", command=next_song)
+
+next.place(relx=0.725, rely=0.0)
+
+previous = tk.Button(frame, text="Previous", padx=15,
+                 pady=5, fg="blue", bg="white", command=previous_song)
+
+previous.place(relx=0.855, rely=0.0)
 
 frame.mainloop()
-
-with open("songs.txt", "w") as f:
-    for songs in list_of_songs:
-        f.write(songs)
