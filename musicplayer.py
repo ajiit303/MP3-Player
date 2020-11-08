@@ -43,7 +43,7 @@ def playlist():
         upcoming_songs.pack()
     else:
         upcoming_songs.configure(text=songs)
-    
+
 
 def errormessage(location):
     for location in songs_location:
@@ -51,6 +51,38 @@ def errormessage(location):
         if (not song_name.endswith('.mp3')):
             return 1
         return 0
+
+
+def playmusic():
+    global now_playing_label
+    global songs_location
+    now_playing = []
+    for i in range(len(songs_location)):
+        song_name = re.search(pattern, songs_location[i]).group(4)
+        now_playing.append((songs_location[i], song_name))
+    if now_playing_label is None:
+        now_playing_label = tk.Label(background, text=now_playing[0][1], bg="red")
+        now_playing_label.place(relx=0.0, rely=0.95)
+    else:
+        now_playing_label.configure(text=song_name)
+    SONG_END = pg.USEREVENT+1
+    mixer.init()
+    mixer.music.set_endevent(SONG_END)
+
+    mixer.music.load(now_playing[0][0])
+    mixer.music.play()
+
+    i = 1
+    while (i < len(now_playing)+1):
+        for event in pg.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+            if event.type == SONG_END:
+                if (i < len(now_playing)+1):
+                    mixer.music.load(now_playing[i][0])
+                    # put ui update code here
+                    # display now_playing[i].name
+                    i += 1
 
 
 def play_in_playlist(i):
@@ -65,7 +97,6 @@ def play_in_playlist(i):
         now_playing_label.place(relx=0.0, rely=0.95)
     else:
         now_playing_label.configure(text=song_name)
-        
 
     mixer.music.play()
 
@@ -118,7 +149,7 @@ background = tk.Frame(frame, bg="yellow")
 background.place(relwidth=0.8, relheight=0.8, relx=0.1, rely=0.1)
 
 select_song = tk.Button(frame, text="Add to Playlist", padx=15,
-                        pady=5, fg="blue", bg="white", command=play_in_playlist)
+                        pady=5, fg="blue", bg="white", command=playlist)
 
 # select_song.place(relwidth=0.2, relheight=0.05, relx=0.4, rely=0.9)
 # select_song.pack(side = tk.LEFT)
