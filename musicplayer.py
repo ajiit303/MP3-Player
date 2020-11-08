@@ -11,6 +11,7 @@ frame.configure(background = "black")
 frame.geometry("500x500")
 songs_location = []
 now_playing_label = None
+paused = False #Song is not paused for now
 
 def select():
     # bandcamp - visit for different formats
@@ -53,11 +54,20 @@ def pausemusic():
     mixer.music.pause()
 
 def unpausemusic():
-    count = 0
-    if (pause):
-        count += 1
-    if count !=0:
-        mixer.music.unpause()
+    mixer.music.unpause()
+
+def play_pause():
+    """
+    Initially the song is playing so "paused" is False. So on pressing the button, the music pauses,
+    and "paused" changes to True due to the toggling of "paused", so the second time you press
+    the button, it will unpause it.
+    """
+    global paused
+    if paused == True:
+        unpausemusic()
+    else:
+        pausemusic()
+    paused = not paused
 
 def stopmusic():
     mixer.music.stop()
@@ -82,19 +92,14 @@ play = tk.Button(frame, text="Play", padx=15,
 
 play.place(relx = 0.22, rely = 0.0)
 
-pause = tk.Button(frame, text="Pause", padx=15,
-                  pady=5, fg="blue", bg="white", command=pausemusic)
+pause = tk.Button(frame, text="Pause/Unpause", padx=15,
+                  pady=5, fg="blue", bg="white", command=play_pause)
 
 pause.place(relx = 0.345, rely = 0.0)
-
-unpause = tk.Button(frame, text="Unpause", padx=15,
-                  pady=5, fg="blue", bg="white", command=unpausemusic)
-
-unpause.place(relx = 0.49, rely = 0.0)
 
 stop = tk.Button(frame, text="Stop", padx=15,
                  pady=5, fg="blue", bg="white", command=stopmusic)
 
-stop.place(relx = 0.665, rely = 0.0)
+stop.place(relx = 0.59, rely = 0.0)
 
 frame.mainloop()
