@@ -2,7 +2,7 @@ import pygame as pg
 import tkinter as tk
 from tkinter import filedialog, Text
 import os
-
+# This is Truong's Branch
 frame = tk.Tk()
 
 canvas = tk.Canvas(frame, height = 700, width = 700, bg = "black")
