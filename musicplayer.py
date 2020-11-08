@@ -5,6 +5,7 @@ from tkinter import filedialog, Text
 import os
 import re
 pg.init()
+SONG_END = pg.USEREVENT+1
 
 frame = tk.Tk()
 frame.title("MP3 Player")
@@ -65,24 +66,26 @@ def playmusic():
         now_playing_label.place(relx=0.0, rely=0.95)
     else:
         now_playing_label.configure(text=song_name)
-    SONG_END = pg.USEREVENT+1
     mixer.init()
     mixer.music.set_endevent(SONG_END)
 
     mixer.music.load(now_playing[0][0])
     mixer.music.play()
+    global num_songs_played
 
-    i = 1
-    while (i < len(now_playing)+1):
-        for event in pg.event.get():
-            if event.type == pygame.QUIT:
-                running = False
-            if event.type == SONG_END:
-                if (i < len(now_playing)+1):
-                    mixer.music.load(now_playing[i][0])
-                    # put ui update code here
-                    # display now_playing[i].name
-                    i += 1
+    num_songs_played = 1
+    frame.after(1000, task)
+    # i = 1
+    # while (i < len(now_playing)+1):
+    #     for event in pg.event.get():
+    #         if event.type == pygame.QUIT:
+    #             running = False
+    #         if event.type == SONG_END:
+    #             if (i < len(now_playing)+1):
+    #                 mixer.music.load(now_playing[i][0])
+    #                 # put ui update code here
+    #                 # display now_playing[i].name
+    #                 i += 1
 
 
 def play_in_playlist(i):
@@ -99,6 +102,23 @@ def play_in_playlist(i):
         now_playing_label.configure(text=song_name)
 
     mixer.music.play()
+
+def task():
+    
+    print("my name")
+    for event in pg.event.get():
+            if event.type == pg.QUIT:
+                running = False
+            if event.type == pg.SONG_END:
+                if (num_songs_played < len(now_playing)+1):
+                    mixer.music.load(now_playing[num_songs_played][0])
+                    # put ui update code here
+                    # display now_playing[i].name
+                    num_songs_played += 1
+                else:
+                    running = False
+    
+    #frame.after(1000, task)
 
 
 def play_next():
