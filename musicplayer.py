@@ -12,14 +12,23 @@ frame.geometry("500x500")
 songs_location = []
 now_playing_label = None
 paused = False #Song is not paused for now
+list_of_songs = []
 
-def select():
+def playlist():
     # bandcamp - visit for different formats
+    songs_location.clear()
     songname = filedialog.askopenfile(initialdir="/", title="Select Song",
                                       filetypes=(("Song", ".mp3"), ("All Files", "*.*")))
-    print(songname.name)
-    songs_location.clear()
     songs_location.append(songname.name)
+    for location in songs_location:
+        list_of_songs.append(location.split("/")[-1])
+    songs = "The list of your playlist is: \n "
+    for song_request in list_of_songs:
+        songs += song_request+"\n"
+    upcoming_songs = tk.Label(background, text = songs, bg = "red")
+    upcoming_songs.pack()
+    for widget in background.winfo_children():
+        widget.destroy
 
 def errormessage(location):
     for location in songs_location:
@@ -80,8 +89,8 @@ def stopmusic():
 background = tk.Frame(frame, bg="yellow")
 background.place(relwidth=0.8, relheight=0.8, relx=0.1, rely=0.1)
 
-select_song = tk.Button(frame, text="Select a Song", padx=15,
-                        pady=5, fg="blue", bg="white", command=select)
+select_song = tk.Button(frame, text="Add to Playlist", padx=15,
+                        pady=5, fg="blue", bg="white", command = playlist)
 
 # select_song.place(relwidth=0.2, relheight=0.05, relx=0.4, rely=0.9)
 # select_song.pack(side = tk.LEFT)
@@ -103,3 +112,7 @@ stop = tk.Button(frame, text="Stop", padx=15,
 stop.place(relx = 0.59, rely = 0.0)
 
 frame.mainloop()
+
+with open("songs.txt","w") as f:
+    for songs in list_of_songs:
+        f.write(songs)
