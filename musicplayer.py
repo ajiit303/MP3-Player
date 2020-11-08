@@ -2,6 +2,9 @@ import pygame as pg
 import tkinter as tk
 from tkinter import filedialog, Text
 import os
+from tkinter import *
+from tkinter import filedialog
+from pygame import mixer
 # This is Truong's Branch
 frame = tk.Tk()
 
