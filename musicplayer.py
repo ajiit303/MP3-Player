@@ -116,7 +116,7 @@ def task():
 
 def play_next():
     global songs_index
-    if songs_index < len(songs_location)+1:
+    if songs_index < len(songs_location):
         songs_index += 1
         print(len(songs_location))
         print(songs_index)
