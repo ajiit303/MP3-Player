@@ -49,10 +49,15 @@ def playmusic():
         mixer.music.load(location)
         mixer.music.play()
 
-
 def pausemusic():
     mixer.music.pause()
 
+def unpausemusic():
+    count = 0
+    if (pause):
+        count += 1
+    if count !=0:
+        mixer.music.unpause()
 
 def stopmusic():
     mixer.music.stop()
@@ -65,25 +70,31 @@ def stopmusic():
 background = tk.Frame(frame, bg="yellow")
 background.place(relwidth=0.8, relheight=0.8, relx=0.1, rely=0.1)
 
-select_song = tk.Button(frame, text="Select a Song", padx=10,
+select_song = tk.Button(frame, text="Select a Song", padx=15,
                         pady=5, fg="blue", bg="white", command=select)
 
 # select_song.place(relwidth=0.2, relheight=0.05, relx=0.4, rely=0.9)
-select_song.pack(side = tk.TOP)
+# select_song.pack(side = tk.LEFT)
+select_song.place(relx = 0.0, rely = 0.0)
 
-play = tk.Button(frame, text="Play", padx=10,
+play = tk.Button(frame, text="Play", padx=15,
                  pady=5, fg="blue", bg="white", command=playmusic)
 
-play.pack(side = tk.TOP)
+play.place(relx = 0.22, rely = 0.0)
 
-pause = tk.Button(frame, text="Pause", padx=10,
+pause = tk.Button(frame, text="Pause", padx=15,
                   pady=5, fg="blue", bg="white", command=pausemusic)
 
-pause.pack(side = tk.TOP)
+pause.place(relx = 0.345, rely = 0.0)
 
-stop = tk.Button(frame, text="Stop", padx=10,
+unpause = tk.Button(frame, text="Unpause", padx=15,
+                  pady=5, fg="blue", bg="white", command=unpausemusic)
+
+unpause.place(relx = 0.49, rely = 0.0)
+
+stop = tk.Button(frame, text="Stop", padx=15,
                  pady=5, fg="blue", bg="white", command=stopmusic)
 
-stop.pack(side = tk.TOP)
+stop.place(relx = 0.665, rely = 0.0)
 
 frame.mainloop()
