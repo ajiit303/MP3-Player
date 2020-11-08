@@ -4,6 +4,7 @@ import tkinter as tk
 from tkinter import filedialog, Text
 import os
 import re
+pg.init()
 
 frame = tk.Tk()
 frame.title("MP3 Player")
@@ -14,15 +15,24 @@ now_playing_label = None
 paused = False  # Song is not paused for now
 list_of_songs = []
 upcoming_songs = None
+pattern = r"(\\|\/)(.+(\\|\/))*(.+)\.(.+)$"
+songs_index = 0
 
 
 def playlist():
     # bandcamp - visit for different formats
     global upcoming_songs
-    songs_location.clear()
+    list_of_songs.clear()
     songname = filedialog.askopenfile(initialdir="/", title="Select Song",
                                       filetypes=(("Song", ".mp3"), ("All Files", "*.*")))
+    for location in songs_location:
+        if (errormessage(location)):
+            error_message = "Not a .mp3 file. Error"
+            new_error = tk.Label(background, text=error_message, bg="red")
+            new_error.place(relx=0.4, rely=0.4)
+            return
     songs_location.append(songname.name)
+    # print(songs_location)
     for location in songs_location:
         list_of_songs.append(location.split("/")[-1])
     songs = "Your playlist is: \n "
@@ -33,6 +43,7 @@ def playlist():
         upcoming_songs.pack()
     else:
         upcoming_songs.configure(text=songs)
+    
 
 def errormessage(location):
     for location in songs_location:
@@ -41,35 +52,37 @@ def errormessage(location):
             return 1
         return 0
 
-def playmusic():
+
+def play_in_playlist(i):
+    global songs_location
+    global pattern
     global now_playing_label
-    
-    for location in songs_location:
-        if (errormessage(location)):
-            error_message = "Not a .mp3 file. Error"
-            new_error = tk.Label(background, text=error_message, bg="red")
-            new_error.place(relx=0.4, rely=0.4)
-            return
-        #song_name = location.split("/")[-1]
-        pattern = r"(\\|\/)(.+(\\|\/))*(.+)\.(.+)$"
-        song_name = re.search(pattern, location).group(4)
-    
-    for song in list_of_songs:
-        if now_playing_label is None:
-            now_playing_label = tk.Label(background, text=song, bg="red")
-            now_playing_label.place(relx=0.0, rely=0.95)
-        else:
-            now_playing_label.configure(text=song)
+    # ^ some of these might not be required
+    mixer.music.load(songs_location[i])
+    song_name = re.search(pattern, songs_location[i]).group(4)
+    if now_playing_label is None:
+        now_playing_label = tk.Label(background, text=song_name, bg="red")
+        now_playing_label.place(relx=0.0, rely=0.95)
+    else:
+        now_playing_label.configure(text=song_name)
+        
 
-        mixer.init()
-        mixer.music.load(location)
-        mixer.music.play()
+    mixer.music.play()
 
-def next_song():
-    pass
 
-def previous_song():
-    pass
+def play_next():
+    global songs_index
+    if songs_index < len(songs_location):
+        songs_index += 1
+        play_in_playlist(songs_index)
+
+
+def play_prev():
+    global songs_index
+    if songs_index > 0:
+        songs_index -= 1
+        play_in_playlist(songs_index)
+
 
 def pausemusic():
     mixer.music.pause()
@@ -105,7 +118,7 @@ background = tk.Frame(frame, bg="yellow")
 background.place(relwidth=0.8, relheight=0.8, relx=0.1, rely=0.1)
 
 select_song = tk.Button(frame, text="Add to Playlist", padx=15,
-                        pady=5, fg="blue", bg="white", command=playlist)
+                        pady=5, fg="blue", bg="white", command=play_in_playlist)
 
 # select_song.place(relwidth=0.2, relheight=0.05, relx=0.4, rely=0.9)
 # select_song.pack(side = tk.LEFT)
@@ -127,12 +140,12 @@ stop = tk.Button(frame, text="Stop", padx=15,
 stop.place(relx=0.595, rely=0.0)
 
 next = tk.Button(frame, text="Next", padx=15,
-                 pady=5, fg="blue", bg="white", command=next_song)
+                 pady=5, fg="blue", bg="white", command=play_next)
 
 next.place(relx=0.725, rely=0.0)
 
 previous = tk.Button(frame, text="Previous", padx=15,
-                 pady=5, fg="blue", bg="white", command=previous_song)
+                     pady=5, fg="blue", bg="white", command=play_prev)
 
 previous.place(relx=0.855, rely=0.0)
 
