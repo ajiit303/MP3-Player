@@ -20,10 +20,21 @@ def select():
     songs_location.clear()
     songs_location.append(songname.name)
 
+def errormessage(location):
+    for location in songs_location:
+        song_name = location.split("/")[-1]
+        if (not song_name.endswith('.mp3')):
+            return 1
+        return 0
 
 def playmusic():
     global now_playing_label
     for location in songs_location:
+        if (errormessage(location)):
+            error_message = "Not a .mp3 file. Error"
+            new_error = tk.Label(background, text = error_message, bg = "red")
+            new_error.place(relx = 0.4, rely = 0.4)
+            return
         #song_name = location.split("/")[-1]
         pattern = r"(\\|\/)(.+(\\|\/))*(.+)\.(.+)$"
         song_name = re.search(pattern, location).group(4)
