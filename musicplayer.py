@@ -15,5 +15,18 @@ background = tk.Frame(frame,bg = "yellow")
 background.place(relwidth = 0.8, relheight = 0.8, relx = 0.1, rely = 0.1)
 
 #uigansdkukwhms,
+#Initialize pygame mixer
+#mixer.init()
+#mixer.music.load()
+#mixer.music.play()
+class MusicPlayer:
+    def __init__(self, window):
+        pass
+
+
+#instantiate class MusicPlayer
+player = MusicPlayer(frame)
+
+
 
 frame.mainloop()
