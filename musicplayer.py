@@ -11,6 +11,6 @@ canvas.pack()
 background = tk.Frame(frame,bg = "yellow")
 background.place(relwidth = 0.8, relheight = 0.8, relx = 0.1, rely = 0.1)
 
-
+#uigansdkukwhms,
 
 frame.mainloop()
