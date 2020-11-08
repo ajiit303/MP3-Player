@@ -118,7 +118,7 @@ def task():
                 else:
                     running = False
     
-    #frame.after(1000, task)
+    frame.after(1000, task)
 
 
 def play_next():
