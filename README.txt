@@ -1,4 +1,4 @@
-Name: Ajiitesh Gupta, Truong Pham, Tural Bakhtiyarli
+Name: Ajiitesh Gupta
 Name of the Project: MP3 Player
 
 Files attached:
